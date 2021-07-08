@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace CalendarGui
+﻿namespace CalendarGui
 {
     partial class CreateNote
     {
@@ -9,7 +6,6 @@ namespace CalendarGui
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        public static string path=string.Empty;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -45,7 +41,6 @@ namespace CalendarGui
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBox2
             // 
@@ -54,7 +49,6 @@ namespace CalendarGui
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(275, 245);
             this.textBox2.TabIndex = 0;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label1
             // 
@@ -80,7 +74,6 @@ namespace CalendarGui
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 3;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // CreateNote
             // 
@@ -96,17 +89,13 @@ namespace CalendarGui
             this.Text = "CreateNote";
             this.ResumeLayout(false);
             this.PerformLayout();
+            this.FormClosing += CreateNote_FormClosing;
 
         }
 
         private void CreateNote_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
-            path= Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"Notes\{textBox1.Text}.txt");
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                sw.WriteLine(textBox2.Text);
-            }
-           
+            
         }
 
         #endregion
