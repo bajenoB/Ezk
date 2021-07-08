@@ -38,8 +38,8 @@ namespace CalendarGui
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
-            "uk",
-            "ru",
+            "uk-UA\t",
+            "ru-RU",
             "en-US"});
             this.comboBox1.Location = new System.Drawing.Point(12, 12);
             this.comboBox1.Name = "comboBox1";
@@ -66,12 +66,11 @@ namespace CalendarGui
             this.Name = "Settings";
             this.Text = "Settings";
             this.ResumeLayout(false);
-            
 
         }
 
-       
-            
+
+        CultureInfo ci;
         
 
         #endregion

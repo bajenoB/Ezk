@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +49,11 @@ namespace CalendarGui
             manager.AddNotes(managerNotes.DisplaySearchedNotes(monthCalendar1.SelectionStart, toolStripTextBox1.Text));
             manager.AddToControls(Controls);
 
+
+        }
+
+        public Form1(CultureInfo ci)
+        {
 
         }
 
