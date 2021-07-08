@@ -16,21 +16,19 @@ namespace CalendarGui
         public CreateNote()
         {
             InitializeComponent();
+            textBox1.GotFocus += (sender, args) => { if (textBox1.Text == "Заголовок") textBox1.Text = string.Empty; };
+            textBox1.LostFocus += (sender, args) => { if (textBox1.Text == string.Empty) textBox1.Text = "Заголовок"; };
+            textBox2.GotFocus += (sender, args) => { if (textBox2.Text == "Основной текст") textBox2.Text = string.Empty; };
+            textBox2.LostFocus += (sender, args) => { if (textBox2.Text == string.Empty) textBox2.Text = "Основной текст"; };
+
+            this.FormClosing += (sender, args) =>
+            {
+                this.Title = textBox1.Text;
+                this.MainText = textBox2.Text;
+                this.dateTime = dateTimePicker1.Value.Date;
+            };
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

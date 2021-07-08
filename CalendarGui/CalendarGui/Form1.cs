@@ -3,44 +3,55 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Globalization;
 
 namespace CalendarGui
 {
     public partial class Form1 : Form
     {
-        //DateTime time = DateTime.Now;
-        List<CustomControl> notes = new List<CustomControl>() { };
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-
-        string path1;
-        string filename1;
-        int x = 0;
-        int y = 0;
+       
 
         public Form1()
         {
-           
-            CustomControl note = new CustomControl("1231121313123", "123", 300, 400, DateTime.Now);
+
+            Manager manager= new Manager();
+            ManagerNotes managerNotes = new ManagerNotes();
             InitializeComponent();
-            //Controls.Add(note);
-            //Controls.Add(note);
-            panel1.Controls.Add(note);
+            monthCalendar1.DateSelected += (sender, args) =>
+            {
+                manager.RemoveFromControls(Controls);
+                manager.AddNotes(managerNotes.DisplayAllNotes(monthCalendar1.SelectionStart));
+                manager.AddToControls(Controls);
+            };
+
+            manager = new Manager();
+            manager.InitToControls(Controls);
+            managerNotes = new ManagerNotes();
+
+            managerNotes.AddNote(new NoteL("Заголовок1", "Текст1", new DateTime(2021, 7, 7)));
+            managerNotes.AddNote(new NoteL("Заголовок1", "Текст1", new DateTime(2021, 7, 6)));
+            managerNotes.AddNote(new NoteL("Заголовок1", "Текст1", new DateTime(2021, 7, 6)));
+            managerNotes.AddNote(new NoteL("Заголовок1", "Текст1", new DateTime(2021, 7, 9)));
+            managerNotes.AddNote(new NoteL("Заголовок1", "Текст1", new DateTime(2021, 7, 10)));
+            managerNotes.AddNote(new NoteL("Заголовок1", "Текст1", new DateTime(2021, 7, 9)));
+            managerNotes.AddNote(new NoteL("Заголовок1", "Текст1", new DateTime(2021, 7, 7)));
+            managerNotes.AddNote(new NoteL("Заголовок1", "Текст1", new DateTime(2021, 7, 6)));
+            managerNotes.AddNote(new NoteL("Заголовок1", "Текст1", new DateTime(2021, 7, 5)));
+
+            manager.AddToControls(Controls);
+            manager.RemoveFromControls(Controls);
+
+            manager.RemoveFromControls(Controls);
+            manager.AddNotes(managerNotes.DisplaySearchedNotes(monthCalendar1.SelectionStart, toolStripTextBox1.Text));
+            manager.AddToControls(Controls);
 
 
         }
 
-        public Form1(CultureInfo ci)
-        {
-            foreach (Control c in this.Controls)
-                resources.ApplyResources(c, c.Name, ci);
-        }
+        
 
        
 
