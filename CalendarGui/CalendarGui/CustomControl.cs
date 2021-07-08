@@ -10,51 +10,44 @@ namespace CalendarGui
 {
     class CustomControl : Control
     {
-        private Label titleLabel ;
-        private Label textLabel ;
-        private Label dateLabel ;
+        private Label TitleLabel;
+        private Label TextLabel;
+        private Label TimeLabel;
         public CustomControl()
         {
-            titleLabel = new Label();
-            textLabel = new Label();
-            dateLabel = new Label();
-    }
+            TitleLabel = new Label();
+            TextLabel = new Label();
+            TimeLabel = new Label();
+        }
 
-        public CustomControl(string text, string name,int x,int y, DateTime date):this()
+        public CustomControl(string text, string name, int posX, int posY, DateTime time) : this()
         {
-            //Name = "rec";
-            this.BackColor = Color.Gray;
-            this.Location = new Point(10, 20);
-            this.Size = new Size(x, y);
-            //263; 244
+            this.BackColor = Color.LightGray;
+            this.Location = new Point(50, 0);
+            this.Size = new Size(150, 100);
             this.Visible = true;
-            
 
-            
-            textLabel.Text = text;
-            textLabel.ForeColor = Color.White;
-           // textLabel.Font = new Font("Times New Roman", FontStyle.Regular,GraphicsUnit.Point);
-            textLabel.Size = new Size(x, y/4);
-            textLabel.Location = new Point(0, 50);
-            textLabel.Visible = true;
+            TitleLabel.Text = name;
+            TitleLabel.Font = new Font("Times New Roman", 10, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            TitleLabel.Size = new Size(this.Width, posY + TitleLabel.Height);
+            TitleLabel.Location = new Point(posX, posY);
+            TitleLabel.Visible = true;
 
-            titleLabel.Text = name;
-            titleLabel.ForeColor = Color.White;
-            titleLabel.Size = new Size(x, y/6);
-            titleLabel.Location = new Point(0, 0);
-            titleLabel.Visible = true;
+            TextLabel.Text = text;
+            TextLabel.Font = new Font("Times New Roman", 10, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            TextLabel.Size = new Size(this.Width, 20);
+            TextLabel.Location = new Point(posX, posY + TitleLabel.Height * 2);
+            TextLabel.Visible = true;
 
+            TimeLabel.Text = time.Date.ToString();
+            TimeLabel.Font = new Font("Times New Roman", 10, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            TimeLabel.Size = new Size(this.Width, posY + TitleLabel.Height * 3);
+            TimeLabel.Location = new Point(posX, posY);
+            TimeLabel.Visible = true;
 
-            dateLabel.Text = date.Date.ToString();
-            dateLabel.ForeColor = Color.White;
-            dateLabel.Size = new Size(x, y/6);
-            dateLabel.Location = new Point(0, 200);
-            dateLabel.Visible = true;
-
-            this.Controls.Add(titleLabel);
-            this.Controls.Add(textLabel);
-            this.Controls.Add(dateLabel);
-
+            this.Controls.Add(TitleLabel);
+            this.Controls.Add(TextLabel);
+            this.Controls.Add(TimeLabel);
         }
     }
 }
