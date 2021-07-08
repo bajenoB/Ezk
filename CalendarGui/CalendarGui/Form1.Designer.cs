@@ -75,6 +75,7 @@ namespace CalendarGui
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(77, 23);
             this.toolStripMenuItem2.Text = "titile create";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -90,15 +91,15 @@ namespace CalendarGui
             // 
             // monthCalendar1
             // 
-            this.monthCalendar1.Location = new System.Drawing.Point(618, 18);
+            this.monthCalendar1.Location = new System.Drawing.Point(32, 95);
             this.monthCalendar1.Name = "monthCalendar1";
             this.monthCalendar1.TabIndex = 1;
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(12, 18);
+            this.panel1.Location = new System.Drawing.Point(239, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(263, 244);
+            this.panel1.Size = new System.Drawing.Size(246, 311);
             this.panel1.TabIndex = 2;
             // 
             // Form1
@@ -106,7 +107,7 @@ namespace CalendarGui
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.ClientSize = new System.Drawing.Size(800, 334);
+            this.ClientSize = new System.Drawing.Size(497, 388);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.monthCalendar1);
             this.Controls.Add(this.menuStrip1);
