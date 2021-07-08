@@ -36,7 +36,7 @@ namespace CalendarLogicDll
 
     public static class Manager
     {
-        public static List<Note> notes { get; private set; } = new List<Note>();
+        public static List<Note> notes { get;  set; } = new List<Note>();
 
         public static void CreateNote(string noteName, string text, DateTime creationData) => Manager.notes.Add(new Note(noteName, text, creationData));
 
