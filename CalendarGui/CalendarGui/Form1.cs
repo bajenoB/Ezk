@@ -17,6 +17,7 @@ namespace CalendarGui
         
         public Form1()
         {
+
             CustomControl note = new CustomControl("text", "123", 400, 300, DateTime.Now);
             InitializeComponent();
             //Controls.Add(note);
