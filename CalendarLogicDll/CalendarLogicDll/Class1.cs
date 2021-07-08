@@ -1,103 +1,108 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CalendarLogicDll
 {
-    public class Node
+    public static class Manager
     {
-        public string Name { get; set; }
-        public string Text { get; set; }
-        public DateTime CreationTime { get; set; }
-        public DateTime ChangeTime { get; set; }
+        public static List<Note> notes { get; private set; } = new List<Note>();
 
-        public Node()
+        public static void CreateNote(string noteName, string text, DateTime creationData) => Manager.notes.Add(new Note(noteName, text, creationData));
+
+        public static void DeleteNote(string noteName)
         {
-            Name = string.Empty;
-            Text = string.Empty;
-            CreationTime = DateTime.Now;
-            ChangeTime = DateTime.Now;
+            if (Manager.notes.FindIndex((Predicate<Note>)(item => item.NoteName == noteName)) == -1)
+                return;
+            Manager.notes.RemoveAt(Manager.notes.FindIndex((Predicate<Note>)(item => item.NoteName == noteName)));
         }
 
-        public Node(string name, string text)
+        public static void SaveAllNotes(string path) => NoteFileOperations.SaveNotes(path, Manager.notes.ToArray());
+
+        public static void SaveNote(string noteName, string path) => NoteFileOperations.SaveNote(path, Manager.notes.Find((Predicate<Note>)(item => item.NoteName == noteName)));
+
+        public static void ReadNotesFromFile(string path) => Manager.notes = NoteFileOperations.ReadFromFile(path);
+    }
+
+    public class Note
+    {
+        public string NoteName { get; private set; }
+
+        public string Text { get; private set; }
+
+        public DateTime CreationData { get; private set; }
+
+        public Note()
         {
-            Name = name;
-            Text = text;
-            CreationTime = DateTime.Now;
-            ChangeTime = DateTime.Now;
+            this.NoteName = string.Empty;
+            this.Text = string.Empty;
+            this.CreationData = new DateTime();
         }
 
-        public override string ToString()
+        public Note(string noteName, string text, DateTime creationData)
         {
-            return $"Name: {Name}\nText: {Text}\nCreation Time: {CreationTime}\nChange Time: {ChangeTime}";
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Node node &&
-                   Text == node.Text &&
-                   Name == node.Name &&
-                   CreationTime == node.CreationTime &&
-                   ChangeTime == node.ChangeTime;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = -666272035;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Text);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * -1521134295 + CreationTime.GetHashCode();
-            hashCode = hashCode * -1521134295 + ChangeTime.GetHashCode();
-            return hashCode;
+            this.Text = text;
+            this.NoteName = noteName;
+            this.CreationData = creationData;
         }
     }
-    [Serializable]
-    public class NodeManager
+
+    public static class NoteFileOperations
     {
-         public List<Node> Nodes { get; set; } = new List<Node>();
-        
-         public string Path { get; set; }
-         public NodeManager()
+        public static bool SaveNote(string path, Note note)
+        {
+            bool flag = false;
+            if (note != null)
             {
-
+                try
+                {
+                    if (File.Exists(path))
+                        File.Delete(path);
+                    File.WriteAllText(path, string.Format("{0}\n>{1}\n<{2}|\n\n*", (object)note.NoteName, (object)note.Text, (object)note.CreationData.Date));
+                    flag = true;
+                }
+                catch
+                {
+                }
             }
+            return flag;
+        }
 
-            public NodeManager(List<Node> nodes, string path)
+        public static bool SaveNotes(string path, params Note[] notes)
+        {
+            bool flag = false;
+            if (((IEnumerable<Note>)notes).Where<Note>((Func<Note, bool>)(x => x != null)).Count<Note>() == notes.Length)
             {
-                Nodes = nodes;
-                Path = path;
+                try
+                {
+                    if (File.Exists(path))
+                        File.Delete(path);
+                    ((IEnumerable<Note>)notes).ToList<Note>().ForEach((Action<Note>)(x => File.AppendAllText(path, string.Format("{0}>{1}\n<{2}|\n\n*", (object)x.NoteName, (object)x.Text, (object)x.CreationData.Date))));
+                    flag = true;
+                }
+                catch
+                {
+                }
             }
+            return flag;
+        }
 
-            public void OrderByNameDecreasing() => Nodes = Nodes.OrderBy(x => x.Name).ToList();
-            
-            public void OrderByNameIncreasing()
-            {
-                OrderByNameDecreasing();
-                Nodes.Reverse();
-            }
-
-            public void OrderByCreationTimeDecreasing() => Nodes = Nodes.OrderBy(x => x.CreationTime).ToList();
-            
-            public void OrderByCreationTimeIncreasing()
-            {
-                OrderByCreationTimeDecreasing();
-                Nodes.Reverse();
-            }
-
-            public void OrderByChangeTimeDecreasing() => Nodes = Nodes.OrderBy(x => x.ChangeTime).ToList();
-            
-            public void OrderByChangeTimeIncreasing()
-            {
-                OrderByChangeTimeDecreasing();
-                Nodes.Reverse();
-            }
-
-            public List<Node> SearchByName(string name) => Nodes.Where(x => x.Name.Contains(name)).ToList();
-
-            public List<Node> SearchByCreationTime(DateTime creationTime) => Nodes.Where(x => x.CreationTime.ToString().Contains(creationTime.ToString())).ToList();
-
-            public List<Node> SearchByChangeTime(DateTime changeTime) => Nodes.Where(x => x.ChangeTime.ToString().Contains(changeTime.ToString())).ToList();
+        public static List<Note> ReadFromFile(string path)
+        {
+            List<Note> notesFromFile = new List<Note>();
+            if (path != null && File.Exists(path))
+                ((IEnumerable<string>)File.ReadAllText(path).Split('*')).ToList<string>().ForEach((Action<string>)(x =>
+                {
+                    if (x.Count<char>() <= 5)
+                        return;
+                    notesFromFile.Add(new Note(new string(x.TakeWhile<char>((Func<char, bool>)(y => y != '>')).ToArray<char>()), x.Substring(x.LastIndexOf('>') + 1, x.LastIndexOf('<') - x.LastIndexOf('>') - 1), DateTime.Parse(x.Substring(x.IndexOf('<') + 1, x.LastIndexOf('|') - x.LastIndexOf('<') - 1))));
+                }));
+            else
+                notesFromFile = (List<Note>)null;
+            return notesFromFile;
+        }
     }
 }
