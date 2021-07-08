@@ -73,8 +73,8 @@ namespace CalendarGui
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(39, 23);
-            this.toolStripMenuItem2.Text = "Test";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(77, 23);
+            this.toolStripMenuItem2.Text = "titile create";
             // 
             // toolStripMenuItem3
             // 

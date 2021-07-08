@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateNote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateNote.Designer.cs">
+      <DependentUpon>CreateNote.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -63,6 +69,9 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CreateNote.resx">
+      <DependentUpon>CreateNote.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
